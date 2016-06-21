@@ -1,0 +1,118 @@
+# http://www.kernel.org/pub/software/scm/git/docs/git-config.html
+
+[user]
+	name = Chris Miller
+	email = chrismillersd@gmail.com
+
+[core]
+        excludesfile = ~/.gitignore
+	#autocrlf = input
+        #safecrlf = true
+        whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
+[color]
+        branch = auto
+        diff = auto
+        status = auto
+        log = auto
+        ui = auto
+        pager = true
+
+[color "branch"]
+        current = red reverse
+        local = red
+        remote = green
+[color "diff"]
+        meta = cyan bold
+        frag = magenta bold
+        old = red bold
+        new = green bold
+[color "status"]
+        added = yellow
+        changed = green
+        untracked = cyan
+[color "log"]
+        added = yellow
+        changed = green
+        untracked = cyan
+
+# from https://git.wiki.kernel.org/index.php/Aliases
+[alias]
+	latest = !git stash $1 && git pull --rebase origin master && git stash pop && :
+       up = status
+        st = status
+        ci = commit
+        di = diff
+        br = branch
+        co = checkout
+        lg = log --stat -p
+        who = shortlog -s --
+        graph = log --graph --oneline --all
+        # on newer gits, --onelline abbreviates --pretty=oneline --abbrev-commit
+        # to get more verbose commit info, append --pretty=short or similar
+        gr2 = log --graph --all --pretty=oneline --decorate --abbrev-commit
+        gr = log --graph --all --pretty='format:%h %C(yellow)%ar%Creset %Cgreen%aN%Creset%C(yellow)%d%Creset %s'
+
+        plom = pull origin master
+        psom = push origin master
+	undo-commit = reset --soft HEAD^
+
+[gitflow "branch"]
+    develop = master
+    master = release
+
+[gitflow "prefix"]
+    feature = feature-
+    release = release-
+    hotfix = hotfix-
+    support = support-
+    versiontag =
+
+[apply]
+	whitespace = strip
+
+[diff "ruby"]
+        funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
+
+# [diff]
+#	tool = meld
+#	## Ubuntu/apt-get install meld
+#	tool	   = meld
+#	## OSX/XCode
+	tool	   = opendiff
+#	## Windows/MSYSGit
+#	#tool = araxis
+
+[merge]
+    # For now force every merge to be visible, it is likly that only is what we want.
+    # --no-ff
+    #    Generate a merge commit even if the merge resolved as a fast-forward.
+    ff = no
+    # --ff-only
+    #   Refuse to merge and exit with a non-zero status unless the current HEAD is already up-to-date or the merge can be resolved as a fast-forward.
+    #ff = only
+	keepBackup = false
+	## Ubuntu/apt-get install meld
+	#tool	   = meld
+	## OSX/XCode
+	tool = opendiff
+	## Windows/MSYSGit
+	#tool = araxis
+
+[mergetool]
+	keepBackup = false
+
+[mergetool "diffmerge"]
+# $LOCAL – Current branch version
+# $REMOTE – Version to be merged
+# $BASE – Common ancestor
+# $MERGED – File where results will be written
+# current version in the left pane, the merge result in the middle pane and the remote version in the right pane
+        cmd = diffmerge --merge --result=$MERGED $LOCAL $BASE $REMOTE
+        trustExitCode = false
+[diff]
+	tool = opendiff
+[difftool]
+	prompt = false
+[url "https://"]
+	insteadOf = git://
